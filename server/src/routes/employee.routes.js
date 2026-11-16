@@ -4,12 +4,18 @@ import validate from '../middleware/validate.js';
 import validateObjectId from '../middleware/validateObjectId.js';
 import {
   createEmployeeSchema,
+  listEmployeesQuerySchema,
   updateEmployeeSchema,
 } from '../validators/employee.validator.js';
 
 const router = Router();
 
-router.get('/', employeeController.getEmployees);
+router.get(
+  '/',
+  validate({ query: listEmployeesQuerySchema }),
+  employeeController.getEmployees
+);
+router.get('/options', employeeController.getEmployeeOptions);
 router.post('/', validate(createEmployeeSchema), employeeController.createEmployee);
 router.get('/:id', validateObjectId, employeeController.getEmployeeById);
 router.put(

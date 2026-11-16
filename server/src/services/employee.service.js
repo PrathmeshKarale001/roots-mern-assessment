@@ -1,18 +1,51 @@
 import Employee from '../models/Employee.js';
 import Task from '../models/Task.js';
-import { ACTIVE_TASK_STATUSES } from '../constants/enums.js';
+import { ACTIVE_TASK_STATUSES, MAX_ACTIVE_TASKS_PER_EMPLOYEE } from '../constants/enums.js';
 import ApiError from '../utils/ApiError.js';
 import { parseUtcCalendarDate } from '../utils/dates.js';
+import { enrichTaskListWithOverdue } from '../utils/overdue.js';
+import {
+  buildEmployeeFilterQuery,
+  buildEmployeeSortSpec,
+  buildPaginationMeta,
+  parsePagination,
+} from '../utils/queryBuilder.js';
 
 export async function listEmployees(queryParams = {}) {
-  const filter = {};
-  if (queryParams.department) {
-    filter.department = queryParams.department;
+  const filter = buildEmployeeFilterQuery(queryParams);
+  const sortSpec = buildEmployeeSortSpec(queryParams);
+  const { page, limit, skip } = parsePagination(queryParams);
+
+  const findQuery = Employee.find(filter).sort(sortSpec).skip(skip).limit(limit);
+  if (queryParams.sortBy === 'fullName') {
+    findQuery.collation({ locale: 'en', strength: 2 });
   }
-  if (queryParams.status) {
-    filter.status = queryParams.status;
-  }
-  return Employee.find(filter).sort({ createdAt: -1 });
+
+  const [items, total] = await Promise.all([
+    findQuery,
+    Employee.countDocuments(filter),
+  ]);
+
+  return {
+    items,
+    pagination: buildPaginationMeta(total, page, limit),
+  };
+}
+
+export async function listEmployeeOptions() {
+  const employees = await Employee.find({})
+    .select(
+      'employeeId fullName email department role status activeTaskCount leaveStart leaveEnd'
+    )
+    .sort({ status: 1, fullName: 1 })
+    .collation({ locale: 'en', strength: 2 })
+    .lean();
+
+  return employees.map((emp) => ({
+    ...emp,
+    maxCapacity: MAX_ACTIVE_TASKS_PER_EMPLOYEE,
+    availableSlots: Math.max(0, MAX_ACTIVE_TASKS_PER_EMPLOYEE - (emp.activeTaskCount || 0)),
+  }));
 }
 
 export async function getEmployeeById(id) {
@@ -43,6 +76,7 @@ export async function createEmployee(data) {
     employeeId: normalizedId,
     fullName: data.fullName.trim(),
     email: normalizedEmail,
+    phone: data.phone ? data.phone.trim() : '',
     department: data.department,
     role: data.role.trim(),
     status: data.status || 'Active',
@@ -101,6 +135,9 @@ export async function updateEmployee(id, data) {
   }
   if (data.email !== undefined) {
     employee.email = data.email.trim().toLowerCase();
+  }
+  if (data.phone !== undefined) {
+    employee.phone = data.phone.trim();
   }
   if (data.department !== undefined) {
     employee.department = data.department;
@@ -209,11 +246,13 @@ export async function getEmployeeTasks(id) {
     throw ApiError.notFound('Employee not found');
   }
 
-  return Task.find({ assignee: id }).sort({ dueDate: 1, createdAt: -1 });
+  const tasks = await Task.find({ assignee: id }).sort({ dueDate: 1, createdAt: -1 });
+  return enrichTaskListWithOverdue(tasks);
 }
 
 export const employeeService = {
   listEmployees,
+  listEmployeeOptions,
   getEmployeeById,
   createEmployee,
   updateEmployee,

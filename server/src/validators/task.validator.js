@@ -14,6 +14,11 @@ const calendarDateSchema = z
     message: 'Invalid calendar date format (expected YYYY-MM-DD)',
   });
 
+const optionalQueryDateSchema = z.preprocess(
+  (v) => (v === '' || v === undefined ? undefined : String(v).trim()),
+  calendarDateSchema.optional()
+);
+
 const objectIdStringSchema = z
   .string({
     invalid_type_error: 'Assignee must be a valid ObjectId string or null',
@@ -149,3 +154,55 @@ export const updateTaskStatusSchema = z
     }),
   })
   .strict();
+
+export const taskFilterQueryBaseSchema = z.object({
+  search: z.string().trim().optional(),
+  department: z.preprocess(
+    (v) => (v === '' ? undefined : v),
+    z.enum(DEPARTMENTS).optional()
+  ),
+  priority: z.preprocess(
+    (v) => (v === '' ? undefined : v),
+    z.enum(TASK_PRIORITY).optional()
+  ),
+  status: z.preprocess(
+    (v) => (v === '' ? undefined : v),
+    z.enum(TASK_STATUS).optional()
+  ),
+  assignee: z.preprocess(
+    (v) => (v === '' ? undefined : v),
+    z
+      .string()
+      .trim()
+      .refine((v) => v === 'unassigned' || isValidObjectId(v), {
+        message: 'Invalid assignee filter',
+      })
+      .optional()
+  ),
+  overdue: z.preprocess(
+    (v) => (v === '' ? undefined : v),
+    z.enum(['true', 'false']).optional()
+  ),
+  dueDate: optionalQueryDateSchema,
+  dueFrom: optionalQueryDateSchema,
+  dueTo: optionalQueryDateSchema,
+  duePreset: z.preprocess(
+    (v) => (v === '' ? undefined : v),
+    z.enum(['overdue', 'today', 'this_week', 'upcoming_7d']).optional()
+  ),
+  sortBy: z.preprocess(
+    (v) => (v === '' ? undefined : v),
+    z.enum(['createdAt', 'dueDate', 'priority', 'title']).optional()
+  ),
+  sortOrder: z.preprocess(
+    (v) => (v === '' ? undefined : v),
+    z.enum(['asc', 'desc']).optional()
+  ),
+});
+
+export const listTasksQuerySchema = taskFilterQueryBaseSchema.extend({
+  page: z.coerce.number().int().min(1).optional().default(1),
+  limit: z.coerce.number().int().min(1).max(100).optional().default(10),
+});
+
+export const exportTasksQuerySchema = taskFilterQueryBaseSchema;

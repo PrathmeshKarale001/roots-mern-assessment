@@ -18,6 +18,14 @@ const optionalNullableCalendarDateSchema = z.preprocess(
   z.union([calendarDateSchema, z.null()]).optional()
 );
 
+const phoneSchema = z
+  .string()
+  .trim()
+  .refine(
+    (val) => val === '' || /^[+]?[\d\s\-().]{7,20}$/.test(val),
+    'Invalid phone number format'
+  );
+
 function validateLeaveWindow(data, ctx) {
   if (data.status === 'On Leave') {
     if (!data.leaveStart) {
@@ -71,6 +79,7 @@ export const createEmployeeSchema = z
       .trim()
       .toLowerCase()
       .email('Invalid email format'),
+    phone: phoneSchema.optional().default(''),
     department: z.enum(DEPARTMENTS, {
       errorMap: () => ({
         message: `Department must be one of: ${DEPARTMENTS.join(', ')}`,
@@ -98,6 +107,7 @@ export const updateEmployeeSchema = z
       .optional(),
     fullName: z.string().trim().min(1, 'fullName cannot be empty').optional(),
     email: z.string().trim().toLowerCase().email('Invalid email format').optional(),
+    phone: phoneSchema.optional(),
     department: z
       .enum(DEPARTMENTS, {
         errorMap: () => ({
@@ -113,3 +123,22 @@ export const updateEmployeeSchema = z
     skills: z.array(z.string().trim().min(1)).optional(),
   })
   .superRefine(validateLeaveWindow);
+
+export const listEmployeesQuerySchema = z.object({
+  search: z.string().trim().optional(),
+  department: z
+    .preprocess((v) => (v === '' ? undefined : v), z.enum(DEPARTMENTS).optional()),
+  status: z
+    .preprocess((v) => (v === '' ? undefined : v), z.enum(EMPLOYEE_STATUS).optional()),
+  sortBy: z
+    .preprocess(
+      (v) => (v === '' ? undefined : v),
+      z
+        .enum(['createdAt', 'fullName', 'joiningDate', 'activeTaskCount', 'employeeId'])
+        .optional()
+    ),
+  sortOrder: z
+    .preprocess((v) => (v === '' ? undefined : v), z.enum(['asc', 'desc']).optional()),
+  page: z.coerce.number().int().min(1).optional().default(1),
+  limit: z.coerce.number().int().min(1).max(100).optional().default(10),
+});

@@ -1,12 +1,20 @@
 import taskService from '../services/task.service.js';
+import csvService from '../services/csv.service.js';
 
 export async function getTasks(req, res) {
-  const list = await taskService.listTasks(req.validated?.query ?? req.query);
+  const { items, pagination } = await taskService.listTasks(
+    req.validated?.query ?? req.query
+  );
   res.status(200).json({
     success: true,
-    count: list.length,
-    data: list,
+    count: items.length,
+    data: items,
+    pagination,
   });
+}
+
+export async function exportTasksCsv(req, res) {
+  await csvService.streamTasksCsv(req.validated?.query ?? req.query, res);
 }
 
 export async function getTaskById(req, res) {
@@ -51,6 +59,7 @@ export async function updateTaskStatus(req, res) {
 
 export const taskController = {
   getTasks,
+  exportTasksCsv,
   getTaskById,
   createTask,
   updateTask,

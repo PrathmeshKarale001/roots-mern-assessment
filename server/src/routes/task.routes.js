@@ -4,13 +4,25 @@ import validate from '../middleware/validate.js';
 import validateObjectId from '../middleware/validateObjectId.js';
 import {
   createTaskSchema,
+  exportTasksQuerySchema,
+  listTasksQuerySchema,
   updateTaskSchema,
   updateTaskStatusSchema,
 } from '../validators/task.validator.js';
 
 const router = Router();
 
-router.get('/', taskController.getTasks);
+router.get('/', validate({ query: listTasksQuerySchema }), taskController.getTasks);
+router.get(
+  '/export.csv',
+  validate({ query: exportTasksQuerySchema }),
+  taskController.exportTasksCsv
+);
+router.get(
+  '/export',
+  validate({ query: exportTasksQuerySchema }),
+  taskController.exportTasksCsv
+);
 router.post('/', validate(createTaskSchema), taskController.createTask);
 router.get('/:id', validateObjectId, taskController.getTaskById);
 router.put('/:id', validateObjectId, validate(updateTaskSchema), taskController.updateTask);

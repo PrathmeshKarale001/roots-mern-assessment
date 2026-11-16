@@ -11,12 +11,23 @@ import {
 import ApiError from '../utils/ApiError.js';
 import {
   formatUtcDate,
+  getTodayUtcCalendarDate,
   isDateInRangeInclusive,
   parseUtcCalendarDate,
 } from '../utils/dates.js';
+import {
+  enrichTaskListWithOverdue,
+  enrichTaskWithOverdue,
+} from '../utils/overdue.js';
+import {
+  buildPaginationMeta,
+  buildTaskFilterQuery,
+  buildTaskSortSpec,
+  parsePagination,
+} from '../utils/queryBuilder.js';
 
 const ASSIGNEE_POPULATE_FIELDS =
-  'employeeId fullName email department role status activeTaskCount';
+  'employeeId fullName email phone department role status activeTaskCount leaveStart leaveEnd';
 
 function emptyAssigneeSnapshot() {
   return {
@@ -65,10 +76,6 @@ function applyEditableTaskFields(task, data, effectiveStartDate, effectiveDueDat
   }
 }
 
-/**
- * Validates employee eligibility (Active or non-overlapping On Leave, < 3 active tasks)
- * and atomically claims 1 active task slot via single-document conditional $inc.
- */
 export async function claimEmployeeCapacity(employeeId, startDate) {
   const normalizedStart = parseUtcCalendarDate(startDate);
 
@@ -144,9 +151,6 @@ export async function claimEmployeeCapacity(employeeId, startDate) {
   };
 }
 
-/**
- * Releases 1 active task slot from an employee safely without going below 0.
- */
 export async function releaseEmployeeCapacity(employeeId) {
   if (!employeeId) {
     return;
@@ -158,23 +162,30 @@ export async function releaseEmployeeCapacity(employeeId) {
 }
 
 export async function listTasks(queryParams = {}) {
-  const filter = {};
-  if (queryParams.department) {
-    filter.department = queryParams.department;
-  }
-  if (queryParams.status) {
-    filter.status = queryParams.status;
-  }
-  if (queryParams.priority) {
-    filter.priority = queryParams.priority;
-  }
-  if (queryParams.assignee) {
-    filter.assignee = queryParams.assignee;
+  const todayUtc = getTodayUtcCalendarDate();
+  const filter = buildTaskFilterQuery(queryParams, todayUtc);
+  const sortSpec = buildTaskSortSpec(queryParams);
+  const { page, limit, skip } = parsePagination(queryParams);
+
+  const findQuery = Task.find(filter)
+    .populate('assignee', ASSIGNEE_POPULATE_FIELDS)
+    .sort(sortSpec)
+    .skip(skip)
+    .limit(limit);
+
+  if (queryParams.sortBy === 'title') {
+    findQuery.collation({ locale: 'en', strength: 2 });
   }
 
-  return Task.find(filter)
-    .populate('assignee', ASSIGNEE_POPULATE_FIELDS)
-    .sort({ createdAt: -1 });
+  const [docs, total] = await Promise.all([
+    findQuery,
+    Task.countDocuments(filter),
+  ]);
+
+  return {
+    items: enrichTaskListWithOverdue(docs, todayUtc),
+    pagination: buildPaginationMeta(total, page, limit),
+  };
 }
 
 export async function getTaskById(id) {
@@ -182,7 +193,7 @@ export async function getTaskById(id) {
   if (!task) {
     throw ApiError.notFound('Task not found');
   }
-  return task;
+  return enrichTaskWithOverdue(task);
 }
 
 export async function createTask(data) {
@@ -221,7 +232,8 @@ export async function createTask(data) {
       assigneeSnapshot,
     });
 
-    return task;
+    await task.populate('assignee', ASSIGNEE_POPULATE_FIELDS);
+    return enrichTaskWithOverdue(task);
   } catch (err) {
     if (assigneeId) {
       await releaseEmployeeCapacity(assigneeId);
@@ -283,7 +295,8 @@ export async function updateTask(id, data) {
       await releaseEmployeeCapacity(currentAssigneeId);
     }
 
-    return task;
+    await task.populate('assignee', ASSIGNEE_POPULATE_FIELDS);
+    return enrichTaskWithOverdue(task);
   }
 
   if (currentAssigneeId && data.startDate !== undefined) {
@@ -301,7 +314,8 @@ export async function updateTask(id, data) {
 
   applyEditableTaskFields(task, data, effectiveStartDate, effectiveDueDate);
   await task.save();
-  return task;
+  await task.populate('assignee', ASSIGNEE_POPULATE_FIELDS);
+  return enrichTaskWithOverdue(task);
 }
 
 export async function updateTaskStatus(id, newStatus) {
@@ -332,7 +346,7 @@ export async function updateTaskStatus(id, newStatus) {
     { _id: id, status: task.status },
     { $set: updateFields },
     { new: true }
-  );
+  ).populate('assignee', ASSIGNEE_POPULATE_FIELDS);
 
   if (!updatedTask) {
     throw ApiError.conflict('Task status was modified concurrently');
@@ -346,7 +360,7 @@ export async function updateTaskStatus(id, newStatus) {
     await releaseEmployeeCapacity(task.assignee);
   }
 
-  return updatedTask;
+  return enrichTaskWithOverdue(updatedTask);
 }
 
 export async function deleteTask(id) {

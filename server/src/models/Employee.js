@@ -27,6 +27,11 @@ const employeeSchema = new mongoose.Schema(
       trim: true,
       lowercase: true,
     },
+    phone: {
+      type: String,
+      default: '',
+      trim: true,
+    },
     department: {
       type: String,
       required: [true, 'Department is required'],

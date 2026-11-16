@@ -1,11 +1,23 @@
 import employeeService from '../services/employee.service.js';
 
 export async function getEmployees(req, res) {
-  const list = await employeeService.listEmployees(req.validated?.query ?? req.query);
+  const { items, pagination } = await employeeService.listEmployees(
+    req.validated?.query ?? req.query
+  );
   res.status(200).json({
     success: true,
-    count: list.length,
-    data: list,
+    count: items.length,
+    data: items,
+    pagination,
+  });
+}
+
+export async function getEmployeeOptions(_req, res) {
+  const options = await employeeService.listEmployeeOptions();
+  res.status(200).json({
+    success: true,
+    count: options.length,
+    data: options,
   });
 }
 
@@ -52,6 +64,7 @@ export async function getEmployeeTasks(req, res) {
 
 export const employeeController = {
   getEmployees,
+  getEmployeeOptions,
   getEmployeeById,
   createEmployee,
   updateEmployee,

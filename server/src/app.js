@@ -9,6 +9,7 @@ import ApiError from './utils/ApiError.js';
 import errorHandler from './middleware/errorHandler.js';
 import employeeRoutes from './routes/employee.routes.js';
 import taskRoutes from './routes/task.routes.js';
+import dashboardRoutes from './routes/dashboard.routes.js';
 
 export const app = express();
 
@@ -48,6 +49,7 @@ app.use('/api', async (_req, _res, next) => {
   next();
 });
 
+app.use('/api', dashboardRoutes);
 app.use('/api/employees', employeeRoutes);
 app.use('/api/tasks', taskRoutes);
 
