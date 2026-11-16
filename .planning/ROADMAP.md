@@ -28,7 +28,11 @@ The Roots Employee & Task Management System delivers a complete, production-grad
   3. Status changes are rejected when submitted through normal task endpoints (POST/PUT /api/tasks) and accepted only via dedicated PUT /api/tasks/:id/status following the exact lifecycle state machine (Todo -> In Progress -> Completed, Todo | In Progress -> Cancelled), with server-authoritative completedDate and terminal lock on completed or cancelled tasks.
   4. Concurrent requests cannot assign a 4th active task (Todo + In Progress) to any employee, enforced via atomic conditional $inc on Employee.activeTaskCount, with automatic slot release upon completion, cancellation, deletion, or reassignment.
   5. Attempting to delete an employee holding active tasks is blocked with HTTP 400/409, while deleting an eligible employee preserves their identity snapshot (employeeId, fullName, email, department, role) on historical tasks.
-**Plans**: TBD
+**Plans:** 2 plans
+
+Plans:
+- [ ] 01-01-PLAN.md — Initialize Node.js 24 ESM, Express 5, Mongoose 8 foundation, core error handling architecture, and Employee CRUD vertical slice with deletion guard
+- [ ] 01-02-PLAN.md — Implement Task vertical slice, atomic 3-task capacity, inclusive leave-window guard, status state machine, and automated Vitest test suite
 
 ### Phase 2: Server Query Engine, Dashboard Aggregation, CSV Export & Seed
 **Goal**: Implement server-side search, composable multi-field filtering, importance sorting, and pagination across Employees and Tasks, build a high-performance single-trip $facet Dashboard aggregation endpoint, provide filter-aware streaming RFC-4180 CSV export with UTC overdue calculation, supply a standalone database seed script, and configure serverless Express deployment for Vercel
@@ -74,7 +78,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Backend Core, Schemas & Business Rules Engine | 0/3 | Not started | - |
+| 1. Backend Core, Schemas & Business Rules Engine | 0/2 | Not started | - |
 | 2. Server Query Engine, Dashboard Aggregation, CSV Export & Seed | 0/2 | Not started | - |
 | 3. Apple Design System, App Shell, Dashboard & Employee Experience | 0/3 | Not started | - |
 | 4. Task Management Experience, E2E Verification, Vercel & Submission Docs | 0/2 | Not started | - |
