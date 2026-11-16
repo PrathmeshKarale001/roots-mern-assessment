@@ -11,7 +11,7 @@ The Roots Employee & Task Management System delivers a complete, production-grad
 - Decimal phases (2.1, 2.2): Urgent insertions (marked with INSERTED)
 
 - [x] **Phase 1: Backend Core, Schemas & Business Rules Engine** - Establish Express 5 + Mongoose foundation, enforce 8 core business rules, atomic 3-task capacity, and CRUD with Vitest rule suite (completed 2026-11-16)
-- [ ] **Phase 2: Server Query Engine, Dashboard Aggregation, CSV Export & Seed** - Implement multi-filter search and importance sort, single-trip dashboard aggregation, streaming CSV export, and standalone seed script
+- [x] **Phase 2: Server Query Engine, Dashboard Aggregation, CSV Export & Seed** - Implement multi-filter search and importance sort, single-trip dashboard aggregation, streaming CSV export, and standalone seed script (completed 2026-11-16)
 - [ ] **Phase 3: Apple Design System, App Shell, Dashboard & Employee Experience** - Build Vanilla CSS Modules Apple HIG tokens and UI kit, responsive shell, bento dashboard with SVG rings, and employee lifecycle flows
 - [ ] **Phase 4: Task Management Experience, E2E Verification, Vercel & Submission Docs** - Deliver interactive task management and status transitions, end-to-end verification, dual Vercel configs, and comprehensive README architecture documentation
 
@@ -45,11 +45,11 @@ Plans:
   3. GET /api/tasks/export.csv streams full RFC-4180 compliant CSV output matching the active filter and search criteria (including overdue flag and preserved former employee details) rather than only the paginated view.
   4. GET /api/dashboard delivers all organizational metrics (employee status counts, task status counts, department/priority distributions, overdue spotlight, and per-employee workload ratios 0..3) in a single server aggregation call.
   5. Developers can spin up the backend locally against standalone MongoDB out of the box, populate clean demo data via npm run seed, and deploy serverless functions via server/api/index.js and server/vercel.json.
-**Plans:** 2 plans
+**Plans:** 2/2 plans complete
 
 Plans:
-- [ ] 02-01-PLAN.md — Shared UTC overdue engine, composable server query engine, pagination, and streaming RFC-4180 CSV export
-- [ ] 02-02-PLAN.md — Server dashboard aggregation, metadata endpoint, standalone seed script, Vercel serverless config, and automated tests
+- [x] 02-01-PLAN.md — Shared UTC overdue engine, composable server query engine, pagination, and streaming RFC-4180 CSV export
+- [x] 02-02-PLAN.md — Server dashboard aggregation, metadata endpoint, standalone seed script, Vercel serverless config, and automated tests
 
 ### Phase 3: Apple Design System, App Shell, Dashboard & Employee Experience
 **Goal**: Create an Apple Human Interface Guidelines design system in pure Vanilla CSS Modules with custom design tokens, establish the responsive navigation shell (macOS frosted sidebar, iPadOS collapsible rail, iOS bottom tab bar), build the Bento dashboard with zero-inline-style SVG capacity rings and charts, and deliver the complete employee management lifecycle (list with URL persistence, creation/edit with leave validation, and creative profile view)
@@ -83,6 +83,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Backend Core, Schemas & Business Rules Engine | 2/2 | Complete    | 2026-11-16 |
-| 2. Server Query Engine, Dashboard Aggregation, CSV Export & Seed | 0/2 | Not started | - |
+| 2. Server Query Engine, Dashboard Aggregation, CSV Export & Seed | 2/2 | Complete    | 2026-11-16 |
 | 3. Apple Design System, App Shell, Dashboard & Employee Experience | 0/3 | Not started | - |
 | 4. Task Management Experience, E2E Verification, Vercel & Submission Docs | 0/2 | Not started | - |

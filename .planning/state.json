@@ -1,0 +1,33 @@
+{
+  "contract": "1.0.0",
+  "flavor": "core",
+  "milestone": null,
+  "phases": [
+    {
+      "number": "1",
+      "name": "Backend Core, Schemas & Business Rules Engine",
+      "status": "complete"
+    },
+    {
+      "number": "2",
+      "name": "Server Query Engine, Dashboard Aggregation, CSV Export & Seed",
+      "status": "complete"
+    },
+    {
+      "number": "3",
+      "name": "Apple Design System, App Shell, Dashboard & Employee Experience",
+      "status": "pending"
+    },
+    {
+      "number": "4",
+      "name": "Task Management Experience, E2E Verification, Vercel & Submission Docs",
+      "status": "pending"
+    }
+  ],
+  "next": {
+    "command": "/gsd-progress --next",
+    "label": "Advance to the next step (plan phase 3)",
+    "reason": "Phase 3 of 4 — needs a plan"
+  },
+  "updated_at": "2026-11-16T13:07:42.677Z"
+}
