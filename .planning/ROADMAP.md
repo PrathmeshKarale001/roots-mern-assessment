@@ -10,7 +10,7 @@ The Roots Employee & Task Management System delivers a complete, production-grad
 - Integer phases (1, 2, 3, 4): Planned milestone work
 - Decimal phases (2.1, 2.2): Urgent insertions (marked with INSERTED)
 
-- [ ] **Phase 1: Backend Core, Schemas & Business Rules Engine** - Establish Express 5 + Mongoose foundation, enforce 8 core business rules, atomic 3-task capacity, and CRUD with Vitest rule suite
+- [x] **Phase 1: Backend Core, Schemas & Business Rules Engine** - Establish Express 5 + Mongoose foundation, enforce 8 core business rules, atomic 3-task capacity, and CRUD with Vitest rule suite (completed 2026-11-16)
 - [ ] **Phase 2: Server Query Engine, Dashboard Aggregation, CSV Export & Seed** - Implement multi-filter search and importance sort, single-trip dashboard aggregation, streaming CSV export, and standalone seed script
 - [ ] **Phase 3: Apple Design System, App Shell, Dashboard & Employee Experience** - Build Vanilla CSS Modules Apple HIG tokens and UI kit, responsive shell, bento dashboard with SVG rings, and employee lifecycle flows
 - [ ] **Phase 4: Task Management Experience, E2E Verification, Vercel & Submission Docs** - Deliver interactive task management and status transitions, end-to-end verification, dual Vercel configs, and comprehensive README architecture documentation
@@ -28,7 +28,7 @@ The Roots Employee & Task Management System delivers a complete, production-grad
   3. Status changes are rejected when submitted through normal task endpoints (POST/PUT /api/tasks) and accepted only via dedicated PUT /api/tasks/:id/status following the exact lifecycle state machine (Todo -> In Progress -> Completed, Todo | In Progress -> Cancelled), with server-authoritative completedDate and terminal lock on completed or cancelled tasks.
   4. Concurrent requests cannot assign a 4th active task (Todo + In Progress) to any employee, enforced via atomic conditional $inc on Employee.activeTaskCount, with automatic slot release upon completion, cancellation, deletion, or reassignment.
   5. Attempting to delete an employee holding active tasks is blocked with HTTP 400/409, while deleting an eligible employee preserves their identity snapshot (employeeId, fullName, email, department, role) on historical tasks.
-**Plans:** 2/2 plans executed
+**Plans:** 2/2 plans complete
 
 Plans:
 - [x] 01-01-PLAN.md — Initialize Node.js 24 ESM, Express 5, Mongoose 8 foundation, core error handling architecture, and Employee CRUD vertical slice with deletion guard
@@ -78,7 +78,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Backend Core, Schemas & Business Rules Engine | 2/2 | In Progress | - |
+| 1. Backend Core, Schemas & Business Rules Engine | 2/2 | Complete    | 2026-11-16 |
 | 2. Server Query Engine, Dashboard Aggregation, CSV Export & Seed | 0/2 | Not started | - |
 | 3. Apple Design System, App Shell, Dashboard & Employee Experience | 0/3 | Not started | - |
 | 4. Task Management Experience, E2E Verification, Vercel & Submission Docs | 0/2 | Not started | - |
