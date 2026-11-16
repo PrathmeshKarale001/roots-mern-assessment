@@ -16,18 +16,18 @@
     {
       "number": "3",
       "name": "Apple Design System, App Shell, Dashboard & Employee Experience",
-      "status": "pending"
+      "status": "complete"
     },
     {
       "number": "4",
       "name": "Task Management Experience, E2E Verification, Vercel & Submission Docs",
-      "status": "pending"
+      "status": "complete"
     }
   ],
   "next": {
-    "command": "/gsd-progress --next",
-    "label": "Advance to the next step (plan phase 3)",
-    "reason": "Phase 3 of 4 — needs a plan"
+    "command": "/gsd-new-milestone",
+    "label": "Start a new milestone",
+    "reason": "All phases complete — start a new milestone"
   },
-  "updated_at": "2026-11-16T13:07:42.677Z"
+  "updated_at": "2026-11-16T13:21:08.134Z"
 }

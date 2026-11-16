@@ -1,0 +1,125 @@
+.stepperCard {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  padding: 20px 24px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.stepperTrack {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+@media (max-width: 640px) {
+  .stepperTrack {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.stepNode {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 15px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  background-color: var(--bg-inset);
+}
+
+.stepNode[data-state='done'] {
+  background-color: var(--accent-green-tint);
+  border-color: rgba(52, 199, 89, 0.28);
+}
+
+.stepNode[data-state='current'] {
+  background-color: var(--accent-blue-tint);
+  border-color: rgba(0, 113, 227, 0.32);
+}
+
+.stepNode[data-state='cancelled'] {
+  background-color: var(--accent-red-tint);
+  border-color: rgba(255, 59, 48, 0.28);
+}
+
+.stepDot {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background-color: var(--bg-surface);
+  border: 1.5px solid var(--border-strong);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.stepNode[data-state='done'] .stepDot {
+  background-color: var(--accent-green-vivid);
+  border-color: var(--accent-green-vivid);
+  color: #ffffff;
+}
+
+.stepNode[data-state='current'] .stepDot {
+  background-color: var(--accent-blue);
+  border-color: var(--accent-blue);
+  color: #ffffff;
+}
+
+.stepNode[data-state='cancelled'] .stepDot {
+  background-color: var(--accent-red-vivid);
+  border-color: var(--accent-red-vivid);
+  color: #ffffff;
+}
+
+.stepLabel {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.stepSub {
+  font-size: 11.5px;
+  color: var(--text-secondary);
+}
+
+.transitionBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-subtle);
+  flex-wrap: wrap;
+}
+
+.transitionActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.descriptionProse {
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: var(--text-primary);
+  white-space: pre-wrap;
+}
+
+.assigneeCard {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px;
+  border-radius: var(--radius-md);
+  background-color: var(--bg-inset);
+  border: 1px solid var(--border-subtle);
+}

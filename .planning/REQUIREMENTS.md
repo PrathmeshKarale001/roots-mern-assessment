@@ -31,24 +31,24 @@ Requirements for the complete technical assignment submission. Every requirement
 
 ### Apple Design System & Frontend Architecture (`UI`)
 
-- [ ] **UI-01**: Apple HIG design system implemented in pure Vanilla CSS Modules + `tokens.css` (SF Pro / Inter typography, translucent frosted vibrancy, grouped inset cards, semantic system colors, CSS `linear()` springs, Light/Dark/System theme toggle) with **zero inline styles (`style={{}}`)** and **zero Tailwind**.
-- [ ] **UI-02**: Responsive layout adapts cleanly across Mobile (`<768px` iOS bottom tab bar + card lists), Tablet (`768–1024px` collapsible rail), and Desktop (`>1024px` macOS Sequoia frosted sidebar) without copying the assignment PDF's wireframe layout.
-- [ ] **UI-03**: Reusable UI component library (`Button`, `Input`, `Select`, `SegmentedControl`, `Badge`, `CapacityRing`, `Modal`, `ActionMenu`, `Pagination`, `Skeleton`, `EmptyState`, `ErrorBanner`) with consistent file naming and feature-sliced architecture.
-- [ ] **UI-04**: Dashboard screen (`/`) renders server-driven bento stat cards, custom zero-inline-style SVG status/priority/department charts, Apple Watch Activity-style employee workload rings (`0/3..3/3`), and actionable overdue task spotlight.
+- [x] **UI-01**: Apple HIG design system implemented in pure Vanilla CSS Modules + `tokens.css` (SF Pro / Inter typography, translucent frosted vibrancy, grouped inset cards, semantic system colors, CSS `linear()` springs, Light/Dark/System theme toggle) with **zero inline styles (`style={{}}`)** and **zero Tailwind**.
+- [x] **UI-02**: Responsive layout adapts cleanly across Mobile (`<768px` iOS bottom tab bar + card lists), Tablet (`768–1024px` collapsible rail), and Desktop (`>1024px` macOS Sequoia frosted sidebar) without copying the assignment PDF's wireframe layout.
+- [x] **UI-03**: Reusable UI component library (`Button`, `Input`, `Select`, `SegmentedControl`, `Badge`, `CapacityRing`, `Modal`, `ActionMenu`, `Pagination`, `Skeleton`, `EmptyState`, `ErrorBanner`) with consistent file naming and feature-sliced architecture.
+- [x] **UI-04**: Dashboard screen (`/`) renders server-driven bento stat cards, custom zero-inline-style SVG status/priority/department charts, Apple Watch Activity-style employee workload rings (`0/3..3/3`), and actionable overdue task spotlight.
 
 ### Frontend Workflows & URL State (`FE`)
 
-- [ ] **FE-01**: Multi-page React Router v7 navigation provides distinct routes for Dashboard (`/`), Employee List (`/employees`), Add Employee (`/employees/new`), Edit Employee (`/employees/:id/edit`), View Employee (`/employees/:id`), Task List (`/tasks`), Add Task (`/tasks/new`), Edit Task (`/tasks/:id/edit`), and View Task (`/tasks/:id`).
-- [ ] **FE-02**: Search, filters, sorting, and `page` number persist in the browser URL query string (e.g., `/tasks?status=In%20Progress&priority=High&page=2`) on both `/tasks` and `/employees` so refreshing or opening a copied URL restores the exact same server-queried view.
-- [ ] **FE-03**: Employee List, Add/Edit forms (with conditional `leaveStart`/`leaveEnd` fields when `On Leave` and skill tag input), delete confirmation modal, and creative Employee Profile View (hero card, skills, visual leave window, capacity ring, assigned tasks list + quick assign CTA) work end-to-end with frontend + backend validation.
-- [ ] **FE-04**: Task List, Add/Edit forms (without editable `status` or `completedDate`, showing live employee capacity/leave hints), filter-synced `Export CSV` action, and creative Task Detail View (interactive status stepper timeline, overdue callout, and `"Former Employee"` snapshot badge when deleted) work end-to-end.
-- [ ] **FE-05**: Task status controls (in both Task List and Task Detail) offer ONLY valid next transitions (`Todo -> In Progress | Cancelled`, `In Progress -> Completed | Cancelled`, locked badge for `Completed`/`Cancelled`), and all API mutations display loading states plus friendly toast/banner notifications surfacing exact backend error messages.
+- [x] **FE-01**: Multi-page React Router v7 navigation provides distinct routes for Dashboard (`/`), Employee List (`/employees`), Add Employee (`/employees/new`), Edit Employee (`/employees/:id/edit`), View Employee (`/employees/:id`), Task List (`/tasks`), Add Task (`/tasks/new`), Edit Task (`/tasks/:id/edit`), and View Task (`/tasks/:id`).
+- [x] **FE-02**: Search, filters, sorting, and `page` number persist in the browser URL query string (e.g., `/tasks?status=In%20Progress&priority=High&page=2`) on both `/tasks` and `/employees` so refreshing or opening a copied URL restores the exact same server-queried view.
+- [x] **FE-03**: Employee List, Add/Edit forms (with conditional `leaveStart`/`leaveEnd` fields when `On Leave` and skill tag input), delete confirmation modal, and creative Employee Profile View (hero card, skills, visual leave window, capacity ring, assigned tasks list + quick assign CTA) work end-to-end with frontend + backend validation.
+- [x] **FE-04**: Task List, Add/Edit forms (without editable `status` or `completedDate`, showing live employee capacity/leave hints), filter-synced `Export CSV` action, and creative Task Detail View (interactive status stepper timeline, overdue callout, and `"Former Employee"` snapshot badge when deleted) work end-to-end.
+- [x] **FE-05**: Task status controls (in both Task List and Task Detail) offer ONLY valid next transitions (`Todo -> In Progress | Cancelled`, `In Progress -> Completed | Cancelled`, locked badge for `Completed`/`Cancelled`), and all API mutations display loading states plus friendly toast/banner notifications surfacing exact backend error messages.
 
 ### Deployment, Seed & Documentation (`DOC`)
 
 - [x] **DOC-01**: Backend runs out of the box against local MongoDB (`mongodb://127.0.0.1:27017/roots_ems`), includes an optional standalone `npm run seed` script (strictly separate from app runtime), and exports a cached-connection Express app at `server/api/index.js` with `server/vercel.json`.
-- [ ] **DOC-02**: Frontend includes `client/vercel.json` SPA rewrites preserving deep links and query parameters on refresh, environment-driven `VITE_API_URL`, and clean `.env.example` files in both `server/` and `client/` with zero committed secrets.
-- [ ] **DOC-03**: Root `README.md` documents setup, environment variables, API overview, MongoDB schemas & Employee -> Task relationship, employee deletion snapshot strategy, Vercel deployment steps, assumptions, and clear answers to all 6 mandatory architectural questions.
+- [x] **DOC-02**: Frontend includes `client/vercel.json` SPA rewrites preserving deep links and query parameters on refresh, environment-driven `VITE_API_URL`, and clean `.env.example` files in both `server/` and `client/` with zero committed secrets.
+- [x] **DOC-03**: Root `README.md` documents setup, environment variables, API overview, MongoDB schemas & Employee -> Task relationship, employee deletion snapshot strategy, Vercel deployment steps, assumptions, and clear answers to all 6 mandatory architectural questions.
 
 ## v2 Requirements
 
@@ -90,18 +90,18 @@ Populated and validated by `gsd-roadmapper`.
 | API-05 | Phase 2 | Complete |
 | API-06 | Phase 1 | Complete |
 | API-07 | Phase 2 | Complete |
-| UI-01 | Phase 3 | Pending |
-| UI-02 | Phase 3 | Pending |
-| UI-03 | Phase 3 | Pending |
-| UI-04 | Phase 3 | Pending |
-| FE-01 | Phase 3 | Pending |
-| FE-02 | Phase 3 | Pending |
-| FE-03 | Phase 3 | Pending |
-| FE-04 | Phase 4 | Pending |
-| FE-05 | Phase 4 | Pending |
+| UI-01 | Phase 3 | Complete |
+| UI-02 | Phase 3 | Complete |
+| UI-03 | Phase 3 | Complete |
+| UI-04 | Phase 3 | Complete |
+| FE-01 | Phase 3 | Complete |
+| FE-02 | Phase 3 | Complete |
+| FE-03 | Phase 3 | Complete |
+| FE-04 | Phase 4 | Complete |
+| FE-05 | Phase 4 | Complete |
 | DOC-01 | Phase 2 | Complete |
-| DOC-02 | Phase 4 | Pending |
-| DOC-03 | Phase 4 | Pending |
+| DOC-02 | Phase 4 | Complete |
+| DOC-03 | Phase 4 | Complete |
 
 **Coverage:**
 - v1 requirements: 28 total

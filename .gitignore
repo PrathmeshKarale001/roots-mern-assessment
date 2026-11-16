@@ -8,6 +8,8 @@ dist/
 build/
 coverage/
 */coverage/
+.vite/
+*/.vite/
 
 # Environment secrets
 .env

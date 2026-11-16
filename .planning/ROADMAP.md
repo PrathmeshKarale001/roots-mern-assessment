@@ -12,8 +12,8 @@ The Roots Employee & Task Management System delivers a complete, production-grad
 
 - [x] **Phase 1: Backend Core, Schemas & Business Rules Engine** - Establish Express 5 + Mongoose foundation, enforce 8 core business rules, atomic 3-task capacity, and CRUD with Vitest rule suite (completed 2026-11-16)
 - [x] **Phase 2: Server Query Engine, Dashboard Aggregation, CSV Export & Seed** - Implement multi-filter search and importance sort, single-trip dashboard aggregation, streaming CSV export, and standalone seed script (completed 2026-11-16)
-- [ ] **Phase 3: Apple Design System, App Shell, Dashboard & Employee Experience** - Build Vanilla CSS Modules Apple HIG tokens and UI kit, responsive shell, bento dashboard with SVG rings, and employee lifecycle flows
-- [ ] **Phase 4: Task Management Experience, E2E Verification, Vercel & Submission Docs** - Deliver interactive task management and status transitions, end-to-end verification, dual Vercel configs, and comprehensive README architecture documentation
+- [x] **Phase 3: Apple Design System, App Shell, Dashboard & Employee Experience** - Build Vanilla CSS Modules Apple HIG tokens and UI kit, responsive shell, bento dashboard with SVG rings, and employee lifecycle flows (completed 2026-11-16)
+- [x] **Phase 4: Task Management Experience, E2E Verification, Vercel & Submission Docs** - Deliver interactive task management and status transitions, end-to-end verification, dual Vercel configs, and comprehensive README architecture documentation (completed 2026-11-16)
 
 ## Phase Details
 
@@ -84,5 +84,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 |-------|----------------|--------|-----------|
 | 1. Backend Core, Schemas & Business Rules Engine | 2/2 | Complete    | 2026-11-16 |
 | 2. Server Query Engine, Dashboard Aggregation, CSV Export & Seed | 2/2 | Complete    | 2026-11-16 |
-| 3. Apple Design System, App Shell, Dashboard & Employee Experience | 0/3 | Not started | - |
-| 4. Task Management Experience, E2E Verification, Vercel & Submission Docs | 0/2 | Not started | - |
+| 3. Apple Design System, App Shell, Dashboard & Employee Experience | 1/1 | Complete    | 2026-11-16 |
+| 4. Task Management Experience, E2E Verification, Vercel & Submission Docs | 1/1 | Complete    | 2026-11-16 |
