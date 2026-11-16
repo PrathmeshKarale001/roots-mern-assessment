@@ -9,24 +9,24 @@ Requirements for the complete technical assignment submission. Every requirement
 
 ### Backend Business Rules (`RULE`)
 
-- [ ] **RULE-01**: System restricts departments strictly to `Development`, `Design`, `QA`, `HR`, and `Sales`, and requires no login/authentication anywhere in the app.
+- [x] **RULE-01**: System restricts departments strictly to `Development`, `Design`, `QA`, `HR`, and `Sales`, and requires no login/authentication anywhere in the app.
 - [ ] **RULE-02**: Backend rejects assigning a task to an `Inactive` employee (`400`) and rejects assigning to an `On Leave` employee (`400`) when the task's `startDate` falls within `[leaveStart, leaveEnd]` (both dates inclusive, normalized to calendar dates).
-- [ ] **RULE-03**: Backend validates date ordering (`dueDate >= startDate` on tasks; `leaveEnd >= leaveStart` required when employee is `On Leave`, cleared to `null` otherwise) and returns `400` on violation.
+- [x] **RULE-03**: Backend validates date ordering (`dueDate >= startDate` on tasks; `leaveEnd >= leaveStart` required when employee is `On Leave`, cleared to `null` otherwise) and returns `400` on violation.
 - [ ] **RULE-04**: New tasks always start in `Todo`, status changes are permitted ONLY via `PUT /api/tasks/:id/status` following `Todo -> In Progress -> Completed` and `Todo | In Progress -> Cancelled`, and any `status` field sent to `POST /api/tasks` or `PUT /api/tasks/:id` is rejected (`400`).
 - [ ] **RULE-05**: Tasks in `Completed` or `Cancelled` status are permanently locked—any edit (`PUT /api/tasks/:id`) or further status change (`PUT /api/tasks/:id/status`) is rejected (`400`).
 - [ ] **RULE-06**: `completedDate` is set exclusively by the backend when a task transitions to `Completed` and any client-supplied `completedDate` is rejected/ignored (`400`).
 - [ ] **RULE-07**: An employee can hold at most 3 active tasks (`Todo` + `In Progress`) simultaneously, enforced via single-document atomic conditional `$inc` on `Employee.activeTaskCount` so two concurrent requests cannot assign a 4th active task, with accurate slot release/transfer on task completion, cancellation, deletion, or reassignment.
 - [ ] **RULE-08**: Overdue status (`today > dueDate` in normalized calendar dates AND `status` not in `Completed`/`Cancelled`) is computed via one shared server utility/predicate and surfaced identically in Task List, Task Detail, Dashboard, and CSV Export.
-- [ ] **RULE-09**: Deleting an employee (`DELETE /api/employees/:id`) is blocked (`400`/`409`) while they hold any `Todo` or `In Progress` task; once eligible and deleted, historical tasks preserve and display meaningful employee details via `assigneeSnapshot` (`employeeId`, `fullName`, `email`, `department`, `role`).
+- [x] **RULE-09**: Deleting an employee (`DELETE /api/employees/:id`) is blocked (`400`/`409`) while they hold any `Todo` or `In Progress` task; once eligible and deleted, historical tasks preserve and display meaningful employee details via `assigneeSnapshot` (`employeeId`, `fullName`, `email`, `department`, `role`).
 
 ### Backend APIs, Querying & Data (`API`)
 
-- [ ] **API-01**: Employee CRUD endpoints (`GET /api/employees`, `POST /api/employees`, `GET /api/employees/:id`, `PUT /api/employees/:id`, `DELETE /api/employees/:id`, `GET /api/employees/:id/tasks`) enforce unique `employeeId` and lowercase-normalized unique `email` (`409` on duplicate) and sync `assigneeSnapshot` on profile edits.
+- [x] **API-01**: Employee CRUD endpoints (`GET /api/employees`, `POST /api/employees`, `GET /api/employees/:id`, `PUT /api/employees/:id`, `DELETE /api/employees/:id`, `GET /api/employees/:id/tasks`) enforce unique `employeeId` and lowercase-normalized unique `email` (`409` on duplicate) and sync `assigneeSnapshot` on profile edits.
 - [ ] **API-02**: Task CRUD & status endpoints (`GET /api/tasks`, `POST /api/tasks`, `GET /api/tasks/:id`, `PUT /api/tasks/:id`, `DELETE /api/tasks/:id`, `PUT /api/tasks/:id/status`) auto-generate sequential `TSK-0001` IDs via an atomic `Counter` collection.
 - [ ] **API-03**: Server-side search (`title` and employee `fullName`), composable filters (`department`, `priority`, `status`, `dueDate` modes/ranges, `assignee`), sorting (`createdAt`, `dueDate`, `priority` by importance via `priorityRank`, `title`), and pagination (`page`, `limit`, `total`, `totalPages`) work together on `GET /api/tasks` (and search/department/status/sort/pagination on `GET /api/employees`).
 - [ ] **API-04**: `GET /api/tasks/export.csv` (mounted above `/:id`) streams RFC-4180 CSV (with UTF-8 BOM) for ALL tasks matching the active search/filter/sort parameters (not just the current page), including `Overdue` and preserved deleted-employee details.
 - [ ] **API-05**: `GET /api/dashboard` computes all summary counts (total/active/on-leave/inactive employees, total/todo/in-progress/completed/cancelled/overdue tasks, department & priority breakdowns, recent overdue tasks, and per-employee active workload `0..3`) on the server via MongoDB aggregation.
-- [ ] **API-06**: Central error middleware returns structured JSON errors with accurate HTTP status codes (`400` validation or broken business rule, `404` resource/route not found or invalid ObjectId, `409` duplicate `employeeId`/`email` or blocked employee deletion).
+- [x] **API-06**: Central error middleware returns structured JSON errors with accurate HTTP status codes (`400` validation or broken business rule, `404` resource/route not found or invalid ObjectId, `409` duplicate `employeeId`/`email` or blocked employee deletion).
 - [ ] **API-07**: Automated backend test suite (`Vitest` + `Supertest` + `mongodb-memory-server`) verifies every business rule, concurrent 4th-task race protection, query composition, dashboard math, and CSV export.
 
 ### Apple Design System & Frontend Architecture (`UI`)
@@ -74,21 +74,21 @@ Populated and validated by `gsd-roadmapper`.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| RULE-01 | Phase 1 | Pending |
+| RULE-01 | Phase 1 | Complete |
 | RULE-02 | Phase 1 | Pending |
-| RULE-03 | Phase 1 | Pending |
+| RULE-03 | Phase 1 | Complete |
 | RULE-04 | Phase 1 | Pending |
 | RULE-05 | Phase 1 | Pending |
 | RULE-06 | Phase 1 | Pending |
 | RULE-07 | Phase 1 | Pending |
 | RULE-08 | Phase 2 | Pending |
-| RULE-09 | Phase 1 | Pending |
-| API-01 | Phase 1 | Pending |
+| RULE-09 | Phase 1 | Complete |
+| API-01 | Phase 1 | Complete |
 | API-02 | Phase 1 | Pending |
 | API-03 | Phase 2 | Pending |
 | API-04 | Phase 2 | Pending |
 | API-05 | Phase 2 | Pending |
-| API-06 | Phase 1 | Pending |
+| API-06 | Phase 1 | Complete |
 | API-07 | Phase 2 | Pending |
 | UI-01 | Phase 3 | Pending |
 | UI-02 | Phase 3 | Pending |
