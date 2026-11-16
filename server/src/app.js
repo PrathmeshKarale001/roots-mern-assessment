@@ -8,6 +8,7 @@ import { connectDB } from './config/db.js';
 import ApiError from './utils/ApiError.js';
 import errorHandler from './middleware/errorHandler.js';
 import employeeRoutes from './routes/employee.routes.js';
+import taskRoutes from './routes/task.routes.js';
 
 export const app = express();
 
@@ -48,6 +49,7 @@ app.use('/api', async (_req, _res, next) => {
 });
 
 app.use('/api/employees', employeeRoutes);
+app.use('/api/tasks', taskRoutes);
 
 app.use((_req, _res, next) => {
   next(ApiError.notFound('Route not found'));
