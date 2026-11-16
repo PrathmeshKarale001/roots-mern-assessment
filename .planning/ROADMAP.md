@@ -45,7 +45,11 @@ Plans:
   3. GET /api/tasks/export.csv streams full RFC-4180 compliant CSV output matching the active filter and search criteria (including overdue flag and preserved former employee details) rather than only the paginated view.
   4. GET /api/dashboard delivers all organizational metrics (employee status counts, task status counts, department/priority distributions, overdue spotlight, and per-employee workload ratios 0..3) in a single server aggregation call.
   5. Developers can spin up the backend locally against standalone MongoDB out of the box, populate clean demo data via npm run seed, and deploy serverless functions via server/api/index.js and server/vercel.json.
-**Plans**: TBD
+**Plans:** 2 plans
+
+Plans:
+- [ ] 02-01-PLAN.md — Shared UTC overdue engine, composable server query engine, pagination, and streaming RFC-4180 CSV export
+- [ ] 02-02-PLAN.md — Server dashboard aggregation, metadata endpoint, standalone seed script, Vercel serverless config, and automated tests
 
 ### Phase 3: Apple Design System, App Shell, Dashboard & Employee Experience
 **Goal**: Create an Apple Human Interface Guidelines design system in pure Vanilla CSS Modules with custom design tokens, establish the responsive navigation shell (macOS frosted sidebar, iPadOS collapsible rail, iOS bottom tab bar), build the Bento dashboard with zero-inline-style SVG capacity rings and charts, and deliver the complete employee management lifecycle (list with URL persistence, creation/edit with leave validation, and creative profile view)
