@@ -34,6 +34,25 @@ app.use(
 
 app.use(express.json({ limit: '1mb' }));
 
+app.get(['/', '/api'], (_req, res) => {
+  res.status(200).json({
+    success: true,
+    name: 'Roots EMS API',
+    message: 'Roots Employee & Task Management System API is live and operational',
+    version: '1.0.0',
+    documentation: 'https://github.com/PrathmeshKarale001/roots-mern-assessment#readme',
+    endpoints: {
+      health: '/api/health',
+      dashboard: '/api/dashboard',
+      employees: '/api/employees',
+      tasks: '/api/tasks',
+      csvExport: '/api/tasks/export.csv',
+      metadata: '/api/meta',
+    },
+    clientApp: config.corsOrigin,
+  });
+});
+
 app.get('/api/health', (_req, res) => {
   res.status(200).json({
     success: true,
